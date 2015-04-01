@@ -1,1 +1,6 @@
-%h1 THIS IS THE INDEX PLACEHOLDER TEXT
+- @posts.each do |post|
+	%h2= post.title
+	%p= post.content
+	%p= time_ago_in_words(post.created_at)
+
+= link_to 'New Post', new_post_path()
