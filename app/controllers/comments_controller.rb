@@ -14,6 +14,7 @@ class CommentsController < ApplicationController
 
   def edit
     @post = Post.find(params[:post_id])
+    #@post = current_user.posts.find(params[:post_id]);
     @comment = @post.comments.find(params[:id])
   end
 

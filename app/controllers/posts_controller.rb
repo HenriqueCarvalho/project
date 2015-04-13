@@ -7,7 +7,10 @@ class PostsController < ApplicationController
   end
 
   def show
-    
+    #future impletation to redirect to path if there isn't the post id
+    #if @post.nil?
+      #redirect_to root_path
+    #end
   end
 
   def new
@@ -25,6 +28,11 @@ class PostsController < ApplicationController
   end
 
   def edit
+    if is_current_user?
+      #update the post
+    else
+      redirect_to post_path(@post)
+    end
   end
 
   def update
@@ -36,11 +44,19 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post.destroy
-    redirect_to root_path
+    if is_current_user?
+      @post.destroy
+      redirect_to root_path
+    else
+      redirect_to post_path(@post)
+    end
   end
 
   private
+
+  def is_current_user?
+    current_user.posts.include?(@post)
+  end
 
   def find_post
     @post = Post.find(params[:id])
