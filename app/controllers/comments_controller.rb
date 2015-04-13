@@ -1,6 +1,8 @@
 class CommentsController < ApplicationController
+  before_action :find_post, only: [:create, :edit, :update, :destroy]
+  before_action :find_comment, only: [:edit, :update, :destroy]
+
   def create
-    @post = Post.find(params[:post_id])
     @comment = @post.comments.create(params[:comment].permit(:comment))
     @comment.user_id = current_user.id if current_user
     @comment.save
@@ -13,15 +15,13 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:post_id])
-    #@post = current_user.posts.find(params[:post_id]);
-    @comment = @post.comments.find(params[:id])
+    if is_current_user?
+    else
+      redirect_to post_path(@post)
+    end
   end
 
   def update
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.find(params[:id])
-
     if @comment.update(params[:comment].permit(:comment))
       redirect_to post_path(@post)
     else
@@ -30,9 +30,24 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:post_id])
-    @comment = @post.comments.find(params[:id])
-    @comment.destroy
+    if is_current_user?
+      @comment.destroy
+    end
+
     redirect_to post_path(@post)
+  end
+
+  private
+
+  def is_current_user?
+    @comment.user_id == current_user.id
+  end
+
+  def find_post
+    @post = Post.find(params[:post_id])
+  end
+
+  def find_comment
+    @comment = @post.comments.find(params[:id])
   end
 end
