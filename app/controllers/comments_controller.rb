@@ -3,19 +3,24 @@ class CommentsController < ApplicationController
   before_action :find_comment, only: [:edit, :update, :destroy]
 
   def create
-    @comment = @post.comments.create(params[:comment].permit(:comment))
-    @comment.user_id = current_user.id if current_user
-    @comment.save
-
-    if @comment.save
-      redirect_to post_path(@post)
+    if user_signed_in?
+      @comment = @post.comments.create(params[:comment].permit(:comment))
+      @comment.user_id = current_user.id
+      @comment.save
+      if @comment.save
+        redirect_to post_path(@post)
+      else
+        render 'new'
+      end
     else
-      render 'new'
+      redirect_to '/users/sign_in', notice: "You need to be singed in to comment."
+      #redirect_to post_path(@post), notice: "You need to be singed in to comment."
     end
   end
 
   def edit
     if is_current_user?
+      #update
     else
       redirect_to post_path(@post)
     end
