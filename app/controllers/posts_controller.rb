@@ -1,6 +1,14 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index, :show, :search]
   before_action :find_post, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
+
+  def search
+    if params[:search].present?
+      @posts = Post.search(params[:search], operator: "or", text_start: [:title])
+    else
+      @posts = Post.all
+    end
+  end
 
   def index
     @posts = Post.all.order('created_at DESC')

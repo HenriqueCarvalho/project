@@ -13,6 +13,10 @@
 		#logo
 			%p= link_to "Henrique's project", root_path
 
+		= simple_form_for search_posts_path, url: '/posts/search', :method => :get do |f|
+			= f.text_field :search, name: "search"
+			= f.submit "Search", name: nil
+
 		#buttons
 			- if user_signed_in?
 				= link_to "New Post", new_post_path()
