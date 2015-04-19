@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
-  before_action :find_post, only: [:create, :edit, :update, :destroy]
-  before_action :find_comment, only: [:edit, :update, :destroy]
+  before_action :find_post, only: [:create, :edit, :update, :destroy, :upvote, :downvote]
+  before_action :find_comment, only: [:edit, :update, :destroy, :upvote, :downvote]
 
   def create
     if user_signed_in?
@@ -13,8 +13,8 @@ class CommentsController < ApplicationController
         render 'new'
       end
     else
-      redirect_to '/users/sign_in', notice: "You need to be singed in to comment."
-      #redirect_to post_path(@post), notice: "You need to be singed in to comment."
+      #redirect_to '/users/sign_in', notice: "You need to be singed in to comment."
+      redirect_to post_path(@post), notice: "You need to be singed in to comment."
     end
   end
 
@@ -40,6 +40,24 @@ class CommentsController < ApplicationController
     end
 
     redirect_to post_path(@post)
+  end
+
+  def upvote
+    if user_signed_in?
+      @comment.upvote_by current_user
+      redirect_to post_path(@post)
+    else
+      redirect_to post_path(@post), notice: "You need to be singed in to like."
+    end
+  end
+
+  def downvote
+    if user_signed_in?
+      @comment.downvote_by current_user
+      redirect_to post_path(@post)
+    else
+      redirect_to post_path(@post), notice: "You need to be singed in to deslike."
+    end
   end
 
   private
