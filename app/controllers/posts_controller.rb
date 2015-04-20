@@ -4,9 +4,9 @@ class PostsController < ApplicationController
 
   def search
     if params[:search].present?
-      @posts = Post.search(params[:search], operator: "or", text_start: [:title])
+      @posts = Post.order('created_at DESC').search(params[:search], operator: "or", text_start: [:title])
     else
-      @posts = Post.all
+      @posts = Post.all.order('created_at DESC')
     end
   end
 

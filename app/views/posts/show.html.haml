@@ -2,15 +2,13 @@
 	%h1= @post.title
 	%p= @post.content
 
-	= if current_user and current_user.posts.include?(@post)
+	- if current_user and current_user.posts.include?(@post)
 		= link_to "Edit", edit_post_path(@post), class: "button"
 		= link_to "Delete", post_path(@post), method: :delete, data: { confirm: "Are you sure you want to do this?" }, class: "button"
 
-	= link_to "upvote", like_post_path(@post), method: :put
-	= @post.get_upvotes.size
-	= link_to "downvote", dislike_post_path(@post), method: :put
-	= @post.get_downvotes.size
-		
+	= link_to "#{@post.get_upvotes.size} liked it!", like_post_path(@post), method: :put, class: "button"
+	= link_to "#{@post.get_downvotes.size} deslike it", dislike_post_path(@post), method: :put, class: "button"
+
 	#comments
 		%h2
 			= @post.comments.count
@@ -19,6 +17,4 @@
 		%br/
 
 		= render @post.comments
-
-		%h3 Reply to thread
 		= render "comments/form"

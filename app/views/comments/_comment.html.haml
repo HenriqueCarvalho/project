@@ -1,17 +1,17 @@
 .comment.clearfix
 	.content
-		= image_tag(comment.user.avatar.url(:thumb))
-		%p.comment_content= comment.comment
-		%p.comment_author= comment.user.name
-		Published at 
-		= time_ago_in_words(comment.created_at)
+		.content-image
+			= image_tag(comment.user.avatar.url(:thumb))
+		.content-comment
+			%p.comment_content= comment.comment
+			%p.comment_author= comment.user.name
+			Published at 
+			= time_ago_in_words(comment.created_at)
 
-	.buttons
-		=if current_user and comment.user_id == current_user.id
-			= link_to "Edit", edit_post_comment_path(comment.post, comment)
-			= link_to "Delete", [comment.post, comment], method: :delete, data: { confirm: "Are you sure?" }
-		= link_to "upvote", like_post_comment_path(comment.post, comment), method: :put
-		= comment.get_upvotes.size
-		= link_to "downvote", dislike_post_comment_path(comment.post, comment), method: :put
-		= comment.get_downvotes.size
-	%hr/
+	.buttons-small
+		- if current_user and comment.user_id == current_user.id
+			= link_to "Edit", edit_post_comment_path(comment.post, comment), class: "button-small"
+			= link_to "Delete", [comment.post, comment], method: :delete, data: { confirm: "Are you sure?" }, class: "button-small"
+
+		= link_to "#{comment.get_upvotes.size} like", like_post_comment_path(comment.post, comment), method: :put, class: "button-small"
+		= link_to "#{comment.get_downvotes.size} deslike", dislike_post_comment_path(comment.post, comment), method: :put, class: "button-small"

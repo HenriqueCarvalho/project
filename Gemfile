@@ -15,6 +15,7 @@ gem 'devise', '~> 3.4.1'
 gem "paperclip", "~> 4.2"
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'searchkick'
+gem 'puma'
 
 group :development, :test do
   gem 'byebug'

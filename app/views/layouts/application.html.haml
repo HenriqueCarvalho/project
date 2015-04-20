@@ -8,29 +8,43 @@
 	= javascript_include_tag 'application', 'data-turbolinks-track' => true
 	= csrf_meta_tags
 %body
-	%header.main_header
+	%header.main_header.clearfix
+		.wrapper
+			#logo.left
+				%p= link_to "Henrique's project", root_path
 
-		#logo
-			%p= link_to "Henrique's project", root_path
-
-		= simple_form_for search_posts_path, url: '/posts/search', :method => :get do |f|
-			= f.text_field :search, name: "search"
-			= f.submit "Search", name: nil
-
-		#buttons
 			- if user_signed_in?
-				= link_to "New Post", new_post_path()
-				= link_to "Sign Out", destroy_user_session_path, method: :delete
-				= link_to "Edit Profile", edit_user_registration_path
-
-				%li.round-image-50
+				.round-image.right
 					= image_tag(current_user.avatar.url(:thumb))
 
-			- else
-				= link_to "Sign Up", new_user_registration_path
-				= link_to "Sign In", new_user_session_path
+				.drop-down-menu.right
+					%ul
+						%li 
+							config
+							%ul
+								%li 
+									= link_to "Change Password", edit_user_password_path
+								%li
+									= link_to "Edit Profile", edit_user_registration_path
+								%li 
+									= link_to "Sign Out", destroy_user_session_path, method: :delete
 
-	.wrapper		 
+				#buttons.right
+					= link_to "New Post", new_post_path()
+					
+			- else
+				#buttons.right
+					= link_to "Sign Up", new_user_registration_path
+					= link_to "Sign In", new_user_session_path
+
+	.wrapper
+		#search
+			= simple_form_for search_posts_path, url: '/posts/search', :method => :get do |f|
+				.search-input
+					= f.text_field :search, name: "search", placeholder: "What are you looking for ?"
+					= f.submit "Search", name: nil
+
+	.wrapper
 		%p.notice= notice
 		%p.alert= alert
 
