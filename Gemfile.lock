@@ -59,6 +59,7 @@ GEM
       execjs
     coffee-script-source (1.9.1)
     columnize (0.9.0)
+    cowsay (0.2.0)
     daemons (1.1.9)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
@@ -222,6 +223,7 @@ DEPENDENCIES
   bcrypt
   byebug
   coffee-rails (~> 4.1.0)
+  cowsay
   devise (~> 3.4.1)
   haml (~> 4.0.6)
   jbuilder (~> 2.0)
