@@ -16,7 +16,7 @@ gem "paperclip", "~> 4.2"
 gem 'acts_as_votable', '~> 0.10.0'
 gem 'searchkick'
 gem 'puma'
-gem 'cowsay'
+gem 'cowsay' # lol?!
 
 group :development, :test do
   gem 'byebug'
